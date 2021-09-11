@@ -1,7 +1,7 @@
 require Logger
 
 defmodule Eliro do
-  def run do
+  def start(_type, _args) do
     children = [
      {Task.Supervisor, [name: Eliro.TaskSupervisor]},
      Supervisor.child_spec({Task, fn -> Eliro.accept(Conf.get_port()) end}, restart: :permanent)
@@ -62,5 +62,3 @@ defmodule Eliro do
     |> send_server(server)
   end
 end
-
-Eliro.run()
