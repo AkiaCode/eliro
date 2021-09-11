@@ -1,6 +1,11 @@
 # Eliro
 
-**TODO: Add description**
+**The most basic reverse proxy**
+
+## Run
+``shell
+$ mix run --no-halt
+```
 
 ## Installation
 
