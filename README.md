@@ -3,7 +3,7 @@
 **The most basic reverse proxy**
 
 ## Run
-``shell
+```shell
 $ mix run --no-halt
 ```
 
