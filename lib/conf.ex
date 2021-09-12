@@ -15,7 +15,7 @@ defmodule Conf do
     def get_key() do
         Map.keys(config()) |> Enum.at(0)
     end
-    
+
     def get_port() do
         key = get_key()
         String.to_integer(key)

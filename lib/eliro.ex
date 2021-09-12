@@ -16,14 +16,13 @@ defmodule Eliro do
     Logger.info "Accepting connections on port #{port}"
     loop_acceptor(socket)
   end
-  
+
   defp loop_acceptor(socket) do
     case :gen_tcp.accept(socket) do
       {:ok, client} ->
         {:ok, pid} = Task.Supervisor.start_child(Eliro.TaskSupervisor, fn ->
           case :gen_tcp.connect(String.to_charlist(Conf.get_domian(0)), String.to_integer(Conf.get_domian(1)), [:binary, active: false]) do
             {:ok, socket} ->
-              send_client(client, socket)
               serve(client, socket)
             {:error, reason} ->
               Logger.info "ConnectError: #{reason}"
@@ -46,18 +45,7 @@ defmodule Eliro do
     end
   end
 
-  defp send_client(client, server) do
-    case :gen_tcp.recv(client, 0) do
-      {:ok, data} ->
-        :gen_tcp.send(server, data)
-        Logger.info "Received: #{data}"
-      {:error, reason} ->
-        Logger.error "ClientError: #{reason}"
-        :gen_tcp.close(client)
-    end
-  end
-
-  defp serve(server, client) do
+  defp serve(client, server) do
     client
     |> send_server(server)
   end
